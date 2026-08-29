@@ -1,0 +1,3 @@
+swaybg -c '#18222d' >/tmp/swaybg.log 2>&1 &
+waybar >/tmp/waybar.log 2>&1 &
+xterm -iconic -title Xwayland-Keepalive -e sleep infinity >/tmp/xwayland.log 2>&1 &

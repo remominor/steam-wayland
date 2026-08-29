@@ -1,0 +1,20 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+window#waybar {
+  color: #f3f4f6;
+  background: rgba(20, 29, 39, 0.94);
+}
+
+#custom-launcher, #custom-steam, #custom-terminal, #custom-files,
+#pulseaudio, #cpu, #memory, #clock {
+  padding: 0 10px;
+}
+
+#custom-launcher:hover, #custom-steam:hover, #custom-terminal:hover, #custom-files:hover {
+  background: #334155;
+}

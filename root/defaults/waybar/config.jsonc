@@ -1,0 +1,24 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 34,
+  "modules-left": ["custom/launcher", "custom/steam", "custom/terminal", "custom/files"],
+  "modules-right": ["pulseaudio", "cpu", "memory", "clock"],
+  "custom/launcher": {
+    "format": " Applications ",
+    "on-click": "fuzzel"
+  },
+  "custom/steam": {
+    "format": " Steam ",
+    "on-click": "steam -gamepadui"
+  },
+  "custom/terminal": {
+    "format": " Terminal ",
+    "on-click": "foot"
+  },
+  "custom/files": {
+    "format": " Files ",
+    "on-click": "thunar"
+  },
+  "clock": { "format": "{:%Y-%m-%d %H:%M}" }
+}

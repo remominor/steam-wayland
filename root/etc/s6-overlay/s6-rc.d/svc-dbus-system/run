@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bash
+mkdir -p /run/dbus
+exec dbus-daemon --system --nofork --nopidfile

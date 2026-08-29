@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bash
+set -euo pipefail
+source /usr/local/bin/runtime-env.sh
+exec s6-setuidgid abc dbus-daemon --session --nofork --nopidfile \
+  --address="${DBUS_SESSION_BUS_ADDRESS}"

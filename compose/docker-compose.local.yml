@@ -1,0 +1,41 @@
+services:
+  steam-wayland:
+    build:
+      context: ..
+    image: steam-wayland:local
+    container_name: steam-wayland
+    runtime: nvidia
+    network_mode: host
+    ipc: private
+    shm_size: 2gb
+    ulimits:
+      memlock: -1
+      rtprio: 95
+    security_opt:
+      - seccomp=unconfined
+    cap_add:
+      - SYS_ADMIN
+      - SYS_NICE
+      - MKNOD
+    environment:
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+      TZ: ${TZ:-America/Los_Angeles}
+      NVIDIA_VISIBLE_DEVICES: ${NVIDIA_VISIBLE_DEVICES:-all}
+      NVIDIA_DRIVER_CAPABILITIES: all
+      DRI_NODE: ${DRI_NODE:-/dev/dri/renderD128}
+      SUNSHINE_CSRF_ALLOWED_ORIGINS: ${SUNSHINE_CSRF_ALLOWED_ORIGINS:-}
+      SUNSHINE_PORT: ${SUNSHINE_PORT:-48989}
+      ENABLE_FLATPAK: ${ENABLE_FLATPAK:-false}
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/uinput:/dev/uinput
+      - /dev/fuse:/dev/fuse
+    device_cgroup_rules:
+      - "c 13:* rmw"
+    volumes:
+      - ../config:/config
+      - ${GAMES_PATH:-../games}:/mnt/games
+      # Let wlroots see host display sockets so it selects a free Xwayland number.
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    restart: unless-stopped

@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bash
+set -euo pipefail
+source /usr/local/bin/runtime-env.sh
+while [[ ! -S "${XDG_RUNTIME_DIR}/pipewire-0" ]]; do sleep 0.25; done
+exec s6-setuidgid abc pipewire-pulse

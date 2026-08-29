@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+set -euo pipefail
+source /usr/local/bin/runtime-env.sh
+for _ in $(seq 1 80); do
+  if s6-setuidgid abc pactl info >/dev/null 2>&1; then break; fi
+  sleep 0.25
+done
+s6-setuidgid abc pactl info >/dev/null
+if ! s6-setuidgid abc pactl list short sinks | awk '{print $2}' | grep -qx steam-stream; then
+  s6-setuidgid abc pactl load-module module-null-sink \
+    sink_name=steam-stream sink_properties=device.description=Steam-Stream >/dev/null
+fi
+s6-setuidgid abc pactl set-default-sink steam-stream
+exec sleep infinity

@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+set -euo pipefail
+source /usr/local/bin/runtime-env.sh
+for _ in $(seq 1 80); do
+  [[ -S "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}" ]] && \
+    s6-setuidgid abc wlr-randr | grep -q '^HEADLESS-1' && break
+  sleep 0.25
+done
+[[ -S "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}" ]] || { echo "fatal: Labwc socket is unavailable" >&2; exit 1; }
+s6-setuidgid abc /usr/local/bin/set-headless-mode.sh default
+exec s6-setuidgid abc sunshine /config/sunshine/sunshine.conf

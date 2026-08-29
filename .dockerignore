@@ -1,0 +1,9 @@
+.git
+.github
+._*
+*.docx
+config
+games
+tests
+unraid
+compose

@@ -1,0 +1,28 @@
+{
+  "env": {
+    "PATH": "$(PATH):/usr/local/bin"
+  },
+  "apps": [
+    {
+      "name": "Desktop",
+      "prep-cmd": [
+        {
+          "do": "/usr/local/bin/set-headless-mode.sh client",
+          "undo": "/usr/local/bin/set-headless-mode.sh default"
+        }
+      ]
+    },
+    {
+      "name": "Steam Big Picture",
+      "detached": [
+        "steam $(STEAM_ARGS)"
+      ],
+      "prep-cmd": [
+        {
+          "do": "/usr/local/bin/set-headless-mode.sh client",
+          "undo": "/usr/local/bin/set-headless-mode.sh default"
+        }
+      ]
+    }
+  ]
+}

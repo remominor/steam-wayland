@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>steam-wayland</Name>
+  <Repository>ghcr.io/remominor/steam-wayland:latest</Repository>
+  <Registry>https://ghcr.io/remominor/steam-wayland</Registry>
+  <Network>host</Network>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/remominor/steam-wayland/issues</Support>
+  <Project>https://github.com/remominor/steam-wayland</Project>
+  <Overview>Wayland-first headless Steam and UMU desktop streamed through Sunshine/Moonlight.</Overview>
+  <Category>GameServers:</Category>
+  <WebUI>https://[IP]:47990</WebUI>
+  <Shell>bash</Shell>
+  <ExtraParams>--runtime=nvidia --cap-add=SYS_ADMIN --cap-add=SYS_NICE --cap-add=MKNOD --security-opt seccomp=unconfined --shm-size=2g --ulimit memlock=-1 --ulimit rtprio=95 --device-cgroup-rule='c 13:* rmw'</ExtraParams>
+  <PostArgs />
+  <CPUset />
+  <DateInstalled />
+  <DonateText />
+  <DonateLink />
+  <Requires>NVIDIA Container Toolkit; /dev/dri, /dev/uinput, and /dev/fuse.</Requires>
+  <Config Name="Persistent configuration" Target="/config" Default="/mnt/cache_nvme/appdata/steam-wayland" Mode="rw" Description="Sunshine credentials, Steam home, launcher state, and user Flatpaks." Type="Path" Display="always" Required="true" Mask="false" />
+  <Config Name="Games" Target="/mnt/games" Default="/mnt/user/games_nvme" Mode="rw" Description="Persistent Steam, UMU, and direct-game storage." Type="Path" Display="always" Required="true" Mask="false" />
+  <Config Name="DRI devices" Target="/dev/dri" Default="/dev/dri" Mode="rw" Description="DRM render devices." Type="Device" Display="always" Required="true" Mask="false" />
+  <Config Name="uinput" Target="/dev/uinput" Default="/dev/uinput" Mode="rw" Description="Sunshine virtual input device." Type="Device" Display="always" Required="true" Mask="false" />
+  <Config Name="FUSE" Target="/dev/fuse" Default="/dev/fuse" Mode="rw" Description="JC141/DwarFS/FUSE support." Type="Device" Display="advanced" Required="true" Mask="false" />
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="Runtime user ID." Type="Variable" Display="advanced" Required="true" Mask="false" />
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Runtime primary group ID." Type="Variable" Display="advanced" Required="true" Mask="false" />
+  <Config Name="Timezone" Target="TZ" Default="America/Los_Angeles" Mode="" Description="Container timezone." Type="Variable" Display="advanced" Required="true" Mask="false" />
+  <Config Name="NVIDIA GPUs" Target="NVIDIA_VISIBLE_DEVICES" Default="GPU-cd07fae4-7ed4-c80d-f4df-ec3b5642261e,GPU-21fdd467-e589-a334-cd13-5eaceebec5a4" Mode="" Description="Both RTX 3070 UUIDs, primary first, for NVIDIA 595 NVENC compatibility." Type="Variable" Display="always" Required="true" Mask="false" />
+  <Config Name="NVIDIA capabilities" Target="NVIDIA_DRIVER_CAPABILITIES" Default="all" Mode="" Description="NVIDIA runtime-injected driver capabilities." Type="Variable" Display="advanced" Required="true" Mask="false" />
+  <Config Name="Render node" Target="DRI_NODE" Default="/dev/dri/renderD128" Mode="" Description="Primary Vulkan render and NVENC adapter node." Type="Variable" Display="advanced" Required="true" Mask="false" />
+  <Config Name="Sunshine CSRF origins" Target="SUNSHINE_CSRF_ALLOWED_ORIGINS" Default="" Mode="" Description="Comma-separated trusted Web UI origins, including scheme and optional port." Type="Variable" Display="always" Required="false" Mask="false" />
+  <Config Name="Enable Flatpak" Target="ENABLE_FLATPAK" Default="false" Mode="" Description="Enable the container-local procfs workaround and persistent user Flathub." Type="Variable" Display="advanced" Required="true" Mask="false" />
+</Container>

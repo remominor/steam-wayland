@@ -1,0 +1,49 @@
+#!/usr/bin/with-contenv bash
+set -euo pipefail
+
+runtime_uid="$(id -u abc)"
+runtime_gid="$(id -g abc)"
+runtime_dir="/run/user/${runtime_uid}"
+
+mkdir -p "${runtime_dir}" /config/.config /config/.local/share /config/.cache \
+  /config/sunshine /config/labwc /config/waybar /config/games /mnt/games
+chown "${runtime_uid}:${runtime_gid}" "${runtime_dir}"
+chmod 700 "${runtime_dir}"
+
+for defaults_dir in sunshine labwc waybar; do
+  if [[ ! -e "/config/${defaults_dir}/.seeded" ]]; then
+    cp -a "/defaults/${defaults_dir}/." "/config/${defaults_dir}/"
+    touch "/config/${defaults_dir}/.seeded"
+  fi
+done
+
+if [[ -n "${SUNSHINE_CSRF_ALLOWED_ORIGINS:-}" ]] && \
+   ! grep -qE '^csrf_allowed_origins[[:space:]]*=[[:space:]]*[^[:space:]]' /config/sunshine/sunshine.conf; then
+  printf '\ncsrf_allowed_origins = %s\n' "${SUNSHINE_CSRF_ALLOWED_ORIGINS}" >> /config/sunshine/sunshine.conf
+fi
+
+if [[ -n "${SUNSHINE_PORT:-}" ]] && \
+   ! grep -qE '^port[[:space:]]*=' /config/sunshine/sunshine.conf; then
+  printf '\nport = %s\n' "${SUNSHINE_PORT}" >> /config/sunshine/sunshine.conf
+fi
+
+ln -sfn /config/labwc /config/.config/labwc
+ln -sfn /config/waybar /config/.config/waybar
+mkdir -p /config/.config/sunshine
+ln -sfn /config/sunshine/sunshine.conf /config/.config/sunshine/sunshine.conf
+ln -sfn /config/sunshine/apps.json /config/.config/sunshine/apps.json
+
+/usr/local/bin/map-device-gids.sh
+/usr/local/bin/normalize-nvidia-runtime.sh
+
+if [[ "${ENABLE_FLATPAK:-false}" == "true" ]]; then
+  mount -t proc -o nosuid,nodev,noexec proc /proc || {
+    echo "fatal: Flatpak procfs remount failed; SYS_ADMIN is required" >&2
+    exit 1
+  }
+  runuser -u abc -- flatpak remote-add --user --if-not-exists flathub \
+    https://flathub.org/repo/flathub.flatpakrepo
+fi
+
+dbus-uuidgen --ensure=/etc/machine-id
+chown -R "${runtime_uid}:${runtime_gid}" /config
