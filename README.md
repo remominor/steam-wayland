@@ -87,6 +87,12 @@ Important variables:
 
 Sunshine's client width, height, and frame rate are applied to `HEADLESS-1` at session start and reset afterward. The built-in apps are Desktop and Steam Big Picture.
 
+### Renderer policy (revisit)
+
+`WLR_RENDERER` is not a Sunshine requirement; it selects Labwc/wlroots' compositor renderer. Vulkan is the newer, potentially faster choice, but this deployment currently defaults NVIDIA to GLES2 because Vulkan can initialize successfully and still produce DMA-BUF modifiers that Sunshine's wlroots capture path cannot import (the observed `XR24`/`BLOCK_LINEAR` frame-capture failure). NVENC encoding is independent of this choice.
+
+The reference projects handle this differently: LinuxServer's Steam image uses the PixelFlux/Smithay stack and its automatic GPU option selects a render node, while `labwc-headless-docker` sets Vulkan in its Dockerfile but overrides it to GLES2 in its Compose example. Neither implements an end-to-end Vulkan-first capture probe. Revisit this policy if a reliable health check can start Vulkan, verify actual Sunshine frame capture, and restart the session with GLES2 after repeated capture failures.
+
 Input follows the container-safe path used by the reference projects: Sunshine creates virtual devices through `/dev/uinput`, while Labwc/libinput discovers them through the mounted `/dev/input` tree and `/run/udev` database. The runtime user is added to each device's actual numeric group ID. If a host has a non-default seat, set `XDG_SEAT` to that seat consistently for the compositor and Sunshine.
 
 To add a UMU game, create its UMU TOML under `/config/games`, then add a Sunshine application whose command is:
