@@ -17,15 +17,21 @@ for defaults_dir in sunshine labwc waybar; do
   fi
 done
 
-if [[ -n "${SUNSHINE_CSRF_ALLOWED_ORIGINS:-}" ]] && \
-   ! grep -qE '^csrf_allowed_origins[[:space:]]*=[[:space:]]*[^[:space:]]' /config/sunshine/sunshine.conf; then
-  printf '\ncsrf_allowed_origins = %s\n' "${SUNSHINE_CSRF_ALLOWED_ORIGINS}" >> /config/sunshine/sunshine.conf
-fi
+set_sunshine_option() {
+  local key="$1" value="$2" escaped
+  [[ -n "${value}" ]] || return 0
+  escaped="$(printf '%s' "${value}" | sed 's/[&|]/\\&/g')"
+  if grep -qE "^[[:space:]]*${key}[[:space:]]*=" /config/sunshine/sunshine.conf; then
+    sed -i -E "s|^[[:space:]]*${key}[[:space:]]*=.*|${key} = ${escaped}|" /config/sunshine/sunshine.conf
+  else
+    printf '\n%s = %s\n' "${key}" "${value}" >> /config/sunshine/sunshine.conf
+  fi
+}
 
-if [[ -n "${SUNSHINE_PORT:-}" ]] && \
-   ! grep -qE '^port[[:space:]]*=' /config/sunshine/sunshine.conf; then
-  printf '\nport = %s\n' "${SUNSHINE_PORT}" >> /config/sunshine/sunshine.conf
-fi
+# Explicit environment values are authoritative, including on an existing
+# /config volume. Empty values leave the persistent setting untouched.
+set_sunshine_option csrf_allowed_origins "${SUNSHINE_CSRF_ALLOWED_ORIGINS:-}"
+set_sunshine_option port "${SUNSHINE_PORT:-}"
 
 ln -sfn /config/labwc /config/.config/labwc
 ln -sfn /config/waybar /config/.config/waybar

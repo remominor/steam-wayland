@@ -7,7 +7,7 @@ The image is currently NVIDIA/amd64 focused. It has been tested locally with an 
 ## Included stack
 
 - Debian Trixie on the LinuxServer.io s6 base image
-- Labwc, Xwayland, Waybar, PipeWire, WirePlumber, and seatd
+- Labwc (GLES2 by default for NVIDIA DMA-BUF compatibility), Xwayland, Waybar, PipeWire, WirePlumber, and seatd
 - Sunshine with Wayland capture and NVENC
 - Steam plus 32-bit graphics/runtime libraries
 - UMU Launcher, DwarFS, FUSE 3, and optional user-scoped Flatpak
@@ -16,7 +16,7 @@ The image is currently NVIDIA/amd64 focused. It has been tested locally with an 
 
 ## Local build and test
 
-Requirements are Docker with Buildx, the NVIDIA Container Toolkit, a working NVIDIA Docker runtime, and host devices `/dev/dri`, `/dev/uinput`, and `/dev/fuse`.
+Requirements are Docker with Buildx, the NVIDIA Container Toolkit, a working NVIDIA Docker runtime, and host devices `/dev/dri`, `/dev/input`, `/dev/uinput`, and `/dev/fuse`. The local and Unraid deployment files also mount `/run/udev` read-only so libinput can discover Sunshine-created virtual keyboard and mouse devices.
 
 ```bash
 docker buildx build --load -t steam-wayland:local .
@@ -77,12 +77,17 @@ Important variables:
 | `PUID` / `PGID` | local `1000:1000`, Unraid `99:100` | Runtime file ownership |
 | `NVIDIA_VISIBLE_DEVICES` | `all` locally | GPUs injected by the NVIDIA runtime |
 | `DRI_NODE` | `/dev/dri/renderD128` | Vulkan renderer and Sunshine adapter |
+| `WLR_RENDERER` | `gles2` | Labwc renderer; `vulkan` remains an optional override |
+| `WLR_LIBINPUT_NO_DEVICES` | `0` | Keeps libinput enabled for virtual input discovery |
+| `XDG_SEAT` | `seat0` | Seat assigned to Labwc and Sunshine input devices |
 | `SUNSHINE_PORT` | unset in the image | Optional Sunshine base-port override |
 | `SUNSHINE_CSRF_ALLOWED_ORIGINS` | unset | Optional trusted Web UI origins |
 | `ENABLE_FLATPAK` | `false` | Enables the container procfs workaround and Flathub |
 | `DEFAULT_MODE` | `1920x1080@60` | Virtual output fallback mode |
 
 Sunshine's client width, height, and frame rate are applied to `HEADLESS-1` at session start and reset afterward. The built-in apps are Desktop and Steam Big Picture.
+
+Input follows the container-safe path used by the reference projects: Sunshine creates virtual devices through `/dev/uinput`, while Labwc/libinput discovers them through the mounted `/dev/input` tree and `/run/udev` database. The runtime user is added to each device's actual numeric group ID. If a host has a non-default seat, set `XDG_SEAT` to that seat consistently for the compositor and Sunshine.
 
 To add a UMU game, create its UMU TOML under `/config/games`, then add a Sunshine application whose command is:
 
