@@ -1,0 +1,7 @@
+._*
+*.docx
+
+# Local runtime state
+.env
+config/
+
