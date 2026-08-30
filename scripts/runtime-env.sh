@@ -18,7 +18,7 @@ export XDG_CURRENT_DESKTOP=labwc
 export XDG_SESSION_DESKTOP=labwc
 export XDG_SEAT="${XDG_SEAT:-seat0}"
 export WLR_BACKENDS="${WLR_BACKENDS:-headless,libinput}"
-export WLR_LIBINPUT_NO_DEVICES="${WLR_LIBINPUT_NO_DEVICES:-0}"
+export WLR_LIBINPUT_NO_DEVICES="${WLR_LIBINPUT_NO_DEVICES:-1}"
 export WLR_RENDER_DRM_DEVICE="${DRI_NODE:-/dev/dri/renderD128}"
 
 # Auto-select a compatible renderer unless the user explicitly overrides it.
