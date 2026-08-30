@@ -8,6 +8,8 @@ ARG SUNSHINE_VERSION=2026.516.143833
 ARG SUNSHINE_SHA256=b9b65f2be93b3e30be0710a940a616b1381da5bc6d858dce33bc0094d7fd4131
 ARG UMU_VERSION=1.4.4
 ARG UMU_SHA256=602c4ac7210a54b835530f927b10c2781e51e294b1cf46448006e48fae66f232
+ARG PROTONUP_QT_VERSION=2.15.1
+ARG PROTONUP_QT_SHA256=fd78efb1ffa0907a525784462494b9b42938f9fd7c019f3eaea3b8faf837e8c1
 ARG DWARFS_VERSION=0.15.7
 ARG DWARFS_SHA256=4dc3b756af88ede837eb3f27fbb5f2f0dbb83d7c9933a1d3be9216d2069d2f5f
 
@@ -28,6 +30,9 @@ ENV HOME=/config \
     XDG_SESSION_TYPE=wayland \
     XDG_CURRENT_DESKTOP=XFCE \
     XDG_SESSION_DESKTOP=xfce \
+    XFCE_GTK_THEME=Adwaita-dark \
+    XFCE_ICON_THEME=Adwaita \
+    XDG_DATA_DIRS=/config/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     LIBSEAT_BACKEND=seatd \
@@ -45,6 +50,20 @@ ENV HOME=/config \
 
 RUN \
   dpkg --add-architecture i386 && \
+  apt-get update && \
+  apt-get install -y --no-install-recommends gnupg && \
+  mkdir -p /etc/apt/keyrings && \
+  curl -fsSL -o /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && \
+  curl -fsSL -o /etc/apt/sources.list.d/winehq.sources https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources && \
+  if ! grep -Rqs 'trixie-backports' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null; then \
+    printf '%s\n' \
+      'Types: deb' \
+      'URIs: http://deb.debian.org/debian' \
+      'Suites: trixie-backports' \
+      'Components: main contrib non-free' \
+      'Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg' \
+      > /etc/apt/sources.list.d/trixie-backports.sources; \
+  fi && \
   apt-get update && \
   apt-get install -y --no-install-recommends \
     adwaita-icon-theme \
@@ -68,6 +87,7 @@ RUN \
     fuzzel \
     gvfs \
     gvfs-backends \
+    accountsservice \
     git \
     htop \
     imagemagick \
@@ -81,6 +101,9 @@ RUN \
     libgl1-mesa-dri:i386 \
     libinput-tools \
     libpulse0:i386 \
+    libasound2t64 \
+    libasound2-plugins \
+    libasound2-plugins:i386 \
     libvulkan1:i386 \
     mesa-utils \
     mesa-vulkan-drivers \
@@ -92,15 +115,20 @@ RUN \
     pavucontrol \
     pciutils \
     pipewire \
+    pipewire:i386 \
     pipewire-alsa \
     pipewire-pulse \
     pulseaudio-utils \
+    alsa-utils \
+    polkitd \
+    pkexec \
     procps \
     psmisc \
     rsync \
     seatd \
     steam-libs \
     steam-libs-i386 \
+    gamescope \
     swaybg \
     thunar \
     thunar-volman \
@@ -109,6 +137,12 @@ RUN \
     unzip \
     vim-tiny \
     vulkan-tools \
+    vainfo \
+    vdpauinfo \
+    xclip \
+    xdotool \
+    xinput \
+    wmctrl \
     waybar \
     wget \
     wireplumber \
@@ -124,6 +158,9 @@ RUN \
     xfdesktop4 \
     xdg-utils \
     xdg-user-dirs \
+    xdg-desktop-portal \
+    xdg-desktop-portal-gtk \
+    winehq-staging \
     xwayland \
     zenity && \
   curl -fsSL -o /tmp/sunshine.deb \
@@ -139,6 +176,24 @@ RUN \
     "https://github.com/Open-Wine-Components/umu-launcher/releases/download/${UMU_VERSION}/python3-umu-launcher_${UMU_VERSION}-1_amd64_debian-13.deb" && \
   echo "${UMU_SHA256}  /tmp/umu.deb" | sha256sum -c - && \
   apt-get install -y --no-install-recommends /tmp/umu.deb && \
+  ln -sfn /usr/games/gamescope /usr/bin/gamescope && \
+  ln -sfn /usr/games/gamescopereaper /usr/bin/gamescopereaper && \
+  curl -fsSL -o /tmp/protonup-qt.AppImage \
+    "https://github.com/DavidoTek/ProtonUp-Qt/releases/download/v${PROTONUP_QT_VERSION}/ProtonUp-Qt-${PROTONUP_QT_VERSION}-x86_64.AppImage" && \
+  echo "${PROTONUP_QT_SHA256}  /tmp/protonup-qt.AppImage" | sha256sum -c - && \
+  install -Dm755 /tmp/protonup-qt.AppImage /opt/protonup-qt/ProtonUp-Qt.AppImage && \
+  printf '%s\n' '[Desktop Entry]' 'Type=Application' 'Name=ProtonUp-Qt' 'Comment=Manage Proton and Wine-GE versions' 'Exec=/opt/protonup-qt/ProtonUp-Qt.AppImage --appimage-extract-and-run' 'Icon=applications-games' 'Categories=Game;' 'Terminal=false' > /usr/share/applications/protonup-qt.desktop && \
+  for desktop_file in \
+    xfce4-accessibility-settings.desktop \
+    xfce4-color-settings.desktop \
+    xfce4-mail-reader.desktop \
+    xfce4-web-browser.desktop \
+    thunar-settings.desktop \
+    pavucontrol.desktop; do \
+    if [ -f "/usr/share/applications/${desktop_file}" ]; then \
+      sed -i '/^\[Desktop Entry\]$/aNoDisplay=true' "/usr/share/applications/${desktop_file}"; \
+    fi; \
+  done && \
   curl -fsSL -o /tmp/steam.deb https://cdn.fastly.steamstatic.com/client/installer/steam.deb && \
   mkdir -p /tmp/steam-package && \
   dpkg-deb -R /tmp/steam.deb /tmp/steam-package && \

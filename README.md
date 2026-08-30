@@ -10,8 +10,8 @@ The image is currently NVIDIA/amd64 focused. It has been tested locally with an 
 - Labwc (GLES2 by default for NVIDIA DMA-BUF compatibility), XFCE 4.20 desktop components, Xwayland, PipeWire, WirePlumber, and seatd
 - Firefox ESR, Foot and XFCE terminals, Thunar, Mousepad, File Roller, Pavucontrol, and common command-line/system tools
 - Sunshine with Wayland capture and NVENC
-- Steam plus 32-bit graphics/runtime libraries
-- UMU Launcher, DwarFS, FUSE 3, and optional user-scoped Flatpak
+- Steam plus WineHQ Wine Staging, Gamescope, and 32-bit graphics/runtime libraries
+- UMU Launcher, ProtonUp-Qt, prebuilt DwarFS, FUSE 3/fuse-overlayfs, bubblewrap, and optional user-scoped Flatpak
 - Dynamic `/dev/input/event*` materialization for hot-plugged controllers
 - Persistent `/config` and `/mnt/games` mounts
 
@@ -88,8 +88,9 @@ Important variables:
 | `SUNSHINE_PORT` | unset in the image | Optional Sunshine base-port override |
 | `SUNSHINE_CSRF_ALLOWED_ORIGINS` | unset | Optional trusted Web UI origins |
 | `ENABLE_FLATPAK` | `false` | Enables the container procfs workaround and Flathub |
+| `XFCE_GTK_THEME` / `XFCE_ICON_THEME` | `Adwaita-dark` / `Adwaita` | XFCE appearance overrides |
 
-The desktop follows each Moonlight client's requested width, height, and frame rate by default. Set `OUTPUT_MODE_POLICY=fixed` with `DEFAULT_MODE=1920x1080@60` to force a fixed virtual desktop. The compositor is Labwc, while XFCE 4.20 supplies the panel, desktop background, settings, notifications, application finder, and session-managed desktop applications. Desktop special icons (host filesystems, removable devices, home, trash, and network volumes) are disabled for this container; applications remain available from the panel/menu. The desktop Steam button intentionally launches normal Steam/login; the Sunshine Big Picture app supplies `STEAM_ARGS` for gamepad UI mode.
+The desktop follows each Moonlight client's requested width, height, and frame rate by default. Set `OUTPUT_MODE_POLICY=fixed` with `DEFAULT_MODE=1920x1080@60` to force a fixed virtual desktop. The compositor is Labwc, while XFCE 4.20 supplies the panel, desktop background, settings, notifications, application finder, and session-managed desktop applications. It defaults to a dark Adwaita theme with a Steam-oriented blue wallpaper; `XFCE_GTK_THEME` and `XFCE_ICON_THEME` can override the theme. Desktop special icons (host filesystems, removable devices, home, trash, and network volumes) are disabled for this container; applications remain available from the panel/menu. The desktop Steam button intentionally launches normal Steam/login; the Sunshine Big Picture app supplies `STEAM_ARGS` for gamepad UI mode.
 
 The desktop session does not keep an invisible Xwayland client open. Xwayland starts on demand when Steam or another X11 application launches, so no `Xwayland-Keepalive` window should appear.
 
@@ -109,7 +110,9 @@ To add a UMU game, create its UMU TOML under `/config/games`, then add a Sunshin
 /usr/local/bin/launch-umu-game.sh /config/games/example.toml
 ```
 
-Flatpak is deliberately off by default because its container workaround needs `SYS_ADMIN`. The capability is already present in the supplied deployment files; set `ENABLE_FLATPAK=true` only when needed.
+Wine Staging is installed from WineHQ's Debian Trixie repository for legacy Wine applications and JC141-style launchers. UMU/Proton remains preferred for Steam games. Gamescope is available as `/usr/bin/gamescope`; ProtonUp-Qt is available from the XFCE application menu for installing GE-Proton and Wine-GE versions.
+
+Flatpak is deliberately off by default because its container workaround needs `SYS_ADMIN`. When enabled, the image remounts a clean `nosuid,nodev,noexec` procfs, configures a user-scoped Flathub remote, and exports `/config/.local/share/flatpak` through `XDG_DATA_DIRS`; this mirrors the reference container's Docker/NVIDIA procfs workaround. The capability is already present in the supplied deployment files; set `ENABLE_FLATPAK=true` only when needed.
 
 ## Security notes
 

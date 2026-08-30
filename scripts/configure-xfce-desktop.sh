@@ -22,6 +22,14 @@ for _ in $(seq 1 30); do
     # Keep the streamed desktop visually clean; applications remain available
     # from the XFCE panel/menu and Labwc fallback menu.
     xfconf-query -c xfce4-desktop -p /desktop-icons/show-thumbnails -n -t bool -s false
+
+    # Match the reference desktop's dark Steam-oriented presentation while
+    # allowing users to override the GTK/icon themes through environment.
+    xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s "${XFCE_GTK_THEME:-Adwaita-dark}"
+    xfconf-query -c xsettings -p /Net/IconThemeName -n -t string -s "${XFCE_ICON_THEME:-Adwaita}"
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -n -t string \
+      -s /usr/share/backgrounds/steam-wayland.svg
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-style -n -t int -s 5
   }; then
     exit 0
   fi

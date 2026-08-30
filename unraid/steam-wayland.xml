@@ -36,6 +36,8 @@
   <Config Name="Wayland seat" Target="XDG_SEAT" Default="seat0" Mode="" Description="Seat assigned to Labwc and Sunshine virtual input." Type="Variable" Display="advanced" Required="true" Mask="false" />
   <Config Name="Desktop mode" Target="DEFAULT_MODE" Default="1920x1080@60" Mode="" Description="Fixed headless desktop resolution and refresh rate." Type="Variable" Display="always" Required="true" Mask="false" />
   <Config Name="Mode policy" Target="OUTPUT_MODE_POLICY" Default="client" Mode="" Description="Use client to follow each Moonlight client's requested resolution and frame rate, or fixed to force DEFAULT_MODE." Type="Variable" Display="advanced" Required="true" Mask="false" />
+  <Config Name="XFCE GTK theme" Target="XFCE_GTK_THEME" Default="Adwaita-dark" Mode="" Description="GTK theme applied to the XFCE shell." Type="Variable" Display="advanced" Required="true" Mask="false" />
+  <Config Name="XFCE icon theme" Target="XFCE_ICON_THEME" Default="Adwaita" Mode="" Description="Icon theme applied to the XFCE shell." Type="Variable" Display="advanced" Required="true" Mask="false" />
   <Config Name="Sunshine CSRF origins" Target="SUNSHINE_CSRF_ALLOWED_ORIGINS" Default="" Mode="" Description="Comma-separated trusted Web UI origins, including scheme and optional port." Type="Variable" Display="always" Required="false" Mask="false" />
   <Config Name="Enable Flatpak" Target="ENABLE_FLATPAK" Default="false" Mode="" Description="Enable the container-local procfs workaround and persistent user Flathub." Type="Variable" Display="advanced" Required="true" Mask="false" />
 </Container>
