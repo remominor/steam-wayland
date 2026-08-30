@@ -69,6 +69,7 @@ RUN \
     adwaita-icon-theme \
     bash \
     bash-completion \
+    bzip2 \
     bubblewrap \
     ca-certificates \
     curl \
@@ -87,6 +88,23 @@ RUN \
     fuzzel \
     gvfs \
     gvfs-backends \
+    gstreamer1.0-alsa \
+    gstreamer1.0-gl \
+    gstreamer1.0-gtk3 \
+    gstreamer1.0-libav \
+    gstreamer1.0-pulseaudio \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-ugly \
+    gstreamer1.0-qt5 \
+    gstreamer1.0-tools \
+    gstreamer1.0-vaapi \
+    gstreamer1.0-x \
+    gstreamer1.0-plugins-bad:i386 \
+    gstreamer1.0-plugins-base:i386 \
+    gstreamer1.0-plugins-good:i386 \
+    gstreamer1.0-plugins-ugly:i386 \
     accountsservice \
     git \
     htop \
@@ -100,10 +118,18 @@ RUN \
     libgl1:i386 \
     libgl1-mesa-dri:i386 \
     libinput-tools \
+    libopenal1 \
+    libopenal1:i386 \
     libpulse0:i386 \
     libasound2t64 \
     libasound2-plugins \
     libasound2-plugins:i386 \
+    libsdl-image1.2 \
+    libsdl-image1.2:i386 \
+    libsdl-ttf2.0-0 \
+    libsdl-ttf2.0-0:i386 \
+    libsdl1.2debian \
+    libsdl1.2debian:i386 \
     libvulkan1:i386 \
     mesa-utils \
     mesa-vulkan-drivers \
@@ -161,6 +187,7 @@ RUN \
     xdg-desktop-portal \
     xdg-desktop-portal-gtk \
     winehq-staging \
+    winetricks \
     xwayland \
     zenity && \
   curl -fsSL -o /tmp/sunshine.deb \

@@ -10,7 +10,8 @@ The image is currently NVIDIA/amd64 focused. It has been tested locally with an 
 - Labwc (GLES2 by default for NVIDIA DMA-BUF compatibility), XFCE 4.20 desktop components, Xwayland, PipeWire, WirePlumber, and seatd
 - Firefox ESR, Foot and XFCE terminals, Thunar, Mousepad, File Roller, Pavucontrol, and common command-line/system tools
 - Sunshine with Wayland capture and NVENC
-- Steam plus WineHQ Wine Staging, Gamescope, and 32-bit graphics/runtime libraries
+- Steam plus WineHQ Wine Staging, Winetricks, Gamescope, and 32-bit graphics/runtime libraries
+- OpenAL, legacy SDL, and broad GStreamer audio/video codec plugins (including 32-bit game plugin support)
 - UMU Launcher, ProtonUp-Qt, prebuilt DwarFS, FUSE 3/fuse-overlayfs, bubblewrap, and optional user-scoped Flatpak
 - Dynamic `/dev/input/event*` materialization for hot-plugged controllers
 - Persistent `/config` and `/mnt/games` mounts
