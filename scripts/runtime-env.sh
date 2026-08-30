@@ -22,6 +22,8 @@ export XDG_SEAT="${XDG_SEAT:-seat0}"
 export WLR_BACKENDS="${WLR_BACKENDS:-headless,libinput}"
 export WLR_LIBINPUT_NO_DEVICES="${WLR_LIBINPUT_NO_DEVICES:-1}"
 export WLR_RENDER_DRM_DEVICE="${DRI_NODE:-/dev/dri/renderD128}"
+export DEFAULT_MODE="${DEFAULT_MODE:-1920x1080@60}"
+export OUTPUT_MODE_POLICY="${OUTPUT_MODE_POLICY:-fixed}"
 
 # Auto-select a compatible renderer unless the user explicitly overrides it.
 if [[ -z "${WLR_RENDERER:-}" || "${WLR_RENDERER}" == "auto" ]]; then

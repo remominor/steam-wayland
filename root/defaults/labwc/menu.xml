@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<openbox_menu>
+  <menu id="root-menu" label="steam-wayland">
+    <item label="Terminal">
+      <action name="Execute" command="foot" />
+    </item>
+    <item label="Files">
+      <action name="Execute" command="thunar" />
+    </item>
+    <item label="Web Browser">
+      <action name="Execute" command="firefox-esr" />
+    </item>
+    <item label="Text Editor">
+      <action name="Execute" command="mousepad" />
+    </item>
+    <item label="Audio Controls">
+      <action name="Execute" command="pavucontrol" />
+    </item>
+    <separator />
+    <item label="Steam">
+      <action name="Execute" command="steam" />
+    </item>
+    <item label="Reload Labwc configuration">
+      <action name="Reconfigure" />
+    </item>
+  </menu>
+</openbox_menu>

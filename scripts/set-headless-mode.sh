@@ -4,17 +4,27 @@ set -euo pipefail
 source /usr/local/bin/runtime-env.sh
 output="${WLR_OUTPUT:-HEADLESS-1}"
 default_mode="${DEFAULT_MODE:-1920x1080@60}"
+mode_policy="${OUTPUT_MODE_POLICY:-fixed}"
 
 case "${1:-client}" in
   client)
-    width="${SUNSHINE_CLIENT_WIDTH:-1920}"
-    height="${SUNSHINE_CLIENT_HEIGHT:-1080}"
-    fps="${SUNSHINE_CLIENT_FPS:-60}"
-    [[ "${width}" =~ ^[0-9]+$ && "${height}" =~ ^[0-9]+$ && "${fps}" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
-      echo "Invalid Sunshine client mode; using ${default_mode}" >&2
-      mode="${default_mode}"
-    }
-    mode="${mode:-${width}x${height}@${fps}}"
+    case "${mode_policy}" in
+      fixed) mode="${default_mode}" ;;
+      client)
+        width="${SUNSHINE_CLIENT_WIDTH:-1920}"
+        height="${SUNSHINE_CLIENT_HEIGHT:-1080}"
+        fps="${SUNSHINE_CLIENT_FPS:-60}"
+        [[ "${width}" =~ ^[0-9]+$ && "${height}" =~ ^[0-9]+$ && "${fps}" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
+          echo "Invalid Sunshine client mode; using ${default_mode}" >&2
+          mode="${default_mode}"
+        }
+        mode="${mode:-${width}x${height}@${fps}}"
+        ;;
+      *)
+        echo "Invalid OUTPUT_MODE_POLICY=${mode_policy}; expected fixed or client" >&2
+        exit 2
+        ;;
+    esac
     ;;
   default) mode="${default_mode}" ;;
   *) mode="$1" ;;

@@ -19,6 +19,12 @@
     <keybind key="W-f">
       <action name="Execute" command="thunar" />
     </keybind>
+    <keybind key="W-b">
+      <action name="Execute" command="firefox-esr" />
+    </keybind>
+    <keybind key="W-e">
+      <action name="Execute" command="mousepad" />
+    </keybind>
     <keybind key="W-s">
       <action name="Execute" command="steam" />
     </keybind>

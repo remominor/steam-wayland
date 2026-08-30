@@ -38,6 +38,7 @@ ENV HOME=/config \
     XDG_SEAT=seat0 \
     DRI_NODE=/dev/dri/renderD128 \
     DEFAULT_MODE=1920x1080@60 \
+    OUTPUT_MODE_POLICY=fixed \
     ENABLE_FLATPAK=false \
     NVIDIA_DRIVER_CAPABILITIES=all \
     STEAM_ARGS="-gamepadui -steamos3"
@@ -48,19 +49,29 @@ RUN \
   apt-get install -y --no-install-recommends \
     adwaita-icon-theme \
     bash \
+    bash-completion \
     bubblewrap \
     ca-certificates \
     curl \
     dbus \
     dbus-x11 \
     evtest \
+    file-roller \
     flatpak \
     foot \
+    fonts-dejavu \
+    fonts-liberation \
+    fonts-vlgothic \
+    firefox-esr \
     fuse3 \
     fuse-overlayfs \
     fuzzel \
+    git \
+    htop \
+    imagemagick \
     jq \
     labwc \
+    less \
     libcap2-bin \
     libegl1:i386 \
     libgbm1:i386 \
@@ -72,21 +83,33 @@ RUN \
     mesa-utils \
     mesa-vulkan-drivers \
     mesa-vulkan-drivers:i386 \
+    mousepad \
+    nano \
+    p7zip-full \
+    pavucontrol \
+    pciutils \
     pipewire \
     pipewire-alsa \
     pipewire-pulse \
     pulseaudio-utils \
+    procps \
+    psmisc \
+    rsync \
     seatd \
     steam-libs \
     steam-libs-i386 \
     swaybg \
     thunar \
+    tumbler \
     udev \
     unzip \
+    vim-tiny \
     vulkan-tools \
     waybar \
+    wget \
     wireplumber \
     wlr-randr \
+    xfce4-terminal \
     xdg-utils \
     xwayland \
     zenity && \
