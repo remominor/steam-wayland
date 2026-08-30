@@ -2,6 +2,8 @@
 
 runtime_uid="$(id -u abc)"
 export HOME=/config
+export LANG="${LANG:-C.UTF-8}"
+export LC_ALL="${LC_ALL:-C.UTF-8}"
 export XDG_CONFIG_HOME=/config/.config
 export XDG_DATA_HOME=/config/.local/share
 export XDG_CACHE_HOME=/config/.cache
