@@ -12,4 +12,6 @@ docker run --rm --entrypoint /bin/bash "${image}" -lc '
   test -f /etc/s6-overlay/s6-rc.d/svc-sunshine/run
   grep -q "capture = wlr" /defaults/sunshine/sunshine.conf
   grep -q "encoder = nvenc" /defaults/sunshine/sunshine.conf
+  test "$(getent passwd abc | cut -d: -f7)" = /bin/bash
+  test "$(readlink -f /usr/bin/steamdeps)" = "$(readlink -f /bin/true)"
 '

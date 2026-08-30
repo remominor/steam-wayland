@@ -70,7 +70,7 @@ Open the Sunshine Web UI, create its first administrator account, then pair Moon
 
 Default files are copied only when each configuration directory is first created. After that, files under `/config` are user-owned and image updates do not replace them.
 
-If an existing `/config` was created by an earlier image, remove the `xterm -iconic -title Xwayland-Keepalive ...` line from `/config/labwc/autostart` and change desktop Steam launch commands from `steam -gamepadui` to `steam` in `/config/labwc/rc.xml` and `/config/waybar/config.jsonc` (or apply the equivalent edits in the UI). The Sunshine Steam app remains the intended Big Picture entry. On first Steam launch, Debian's Steam wrapper may offer to install missing host packages; that prompt requires root, so do not enter an Unraid host root password into the container. We will handle any remaining wrapper/dependency issue separately.
+If an existing `/config` was created by an earlier image, remove the `xterm -iconic -title Xwayland-Keepalive ...` line from `/config/labwc/autostart` and change desktop Steam launch commands from `steam -gamepadui` to `steam` in `/config/labwc/rc.xml` and `/config/waybar/config.jsonc` (or apply the equivalent edits in the UI). The Sunshine Steam app remains the intended Big Picture entry. The image preinstalls its Steam host libraries and disables Debian's interactive `steamdeps` helper, so first launch can bootstrap/update Steam without requesting a root password. The `abc` user has Bash as its login shell so Foot opens an interactive terminal instead of immediately exiting.
 
 Important variables:
 

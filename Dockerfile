@@ -110,12 +110,13 @@ RUN \
   chmod 755 /tmp/steam-package/DEBIAN/postinst && \
   dpkg-deb -b /tmp/steam-package /tmp/steam-container.deb && \
   apt-get install -y --no-install-recommends /tmp/steam-container.deb && \
+  ln -sfn /bin/true /usr/bin/steamdeps && \
   curl -fsSL -o /tmp/dwarfs.tar.xz \
     "https://github.com/mhx/dwarfs/releases/download/v${DWARFS_VERSION}/dwarfs-${DWARFS_VERSION}-Linux-x86_64.tar.xz" && \
   echo "${DWARFS_SHA256}  /tmp/dwarfs.tar.xz" | sha256sum -c - && \
   tar -xJf /tmp/dwarfs.tar.xz --strip-components=1 -C /usr/local && \
   (getent group seat >/dev/null || groupadd --system seat) && \
-  usermod -a -G audio,input,render,seat,video abc && \
+  usermod -s /bin/bash -a -G audio,input,render,seat,video abc && \
   mkdir -p /config /defaults /mnt/games /run/user/911 && \
   chmod 700 /run/user/911 && \
   apt-get clean && \
