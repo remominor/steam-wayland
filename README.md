@@ -70,6 +70,8 @@ Open the Sunshine Web UI, create its first administrator account, then pair Moon
 
 Default files are copied only when each configuration directory is first created. After that, files under `/config` are user-owned and image updates do not replace them.
 
+If an existing `/config` was created by an earlier image, remove the `xterm -iconic -title Xwayland-Keepalive ...` line from `/config/labwc/autostart` and change desktop Steam launch commands from `steam -gamepadui` to `steam` in `/config/labwc/rc.xml` and `/config/waybar/config.jsonc` (or apply the equivalent edits in the UI). The Sunshine Steam app remains the intended Big Picture entry. On first Steam launch, Debian's Steam wrapper may offer to install missing host packages; that prompt requires root, so do not enter an Unraid host root password into the container. We will handle any remaining wrapper/dependency issue separately.
+
 Important variables:
 
 | Variable | Default | Purpose |
@@ -85,7 +87,9 @@ Important variables:
 | `ENABLE_FLATPAK` | `false` | Enables the container procfs workaround and Flathub |
 | `DEFAULT_MODE` | `1920x1080@60` | Virtual output fallback mode |
 
-Sunshine's client width, height, and frame rate are applied to `HEADLESS-1` at session start and reset afterward. The built-in apps are Desktop and Steam Big Picture.
+Sunshine's client width, height, and frame rate are applied to `HEADLESS-1` at session start and reset afterward. The built-in apps are Desktop and Steam Big Picture. The desktop Steam button intentionally launches normal Steam/login; the Sunshine Big Picture app supplies `STEAM_ARGS` for gamepad UI mode.
+
+The desktop session does not keep an invisible Xwayland client open. Xwayland starts on demand when Steam or another X11 application launches, so no `Xwayland-Keepalive` window should appear.
 
 ### Renderer policy
 

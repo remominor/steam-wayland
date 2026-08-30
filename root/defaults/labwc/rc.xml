@@ -20,7 +20,7 @@
       <action name="Execute" command="thunar" />
     </keybind>
     <keybind key="W-s">
-      <action name="Execute" command="steam -gamepadui" />
+      <action name="Execute" command="steam" />
     </keybind>
   </keyboard>
 </labwc_config>

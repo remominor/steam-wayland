@@ -10,7 +10,7 @@
   },
   "custom/steam": {
     "format": " Steam ",
-    "on-click": "steam -gamepadui"
+    "on-click": "steam"
   },
   "custom/terminal": {
     "format": " Terminal ",
