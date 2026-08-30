@@ -53,3 +53,4 @@ fi
 
 dbus-uuidgen --ensure=/etc/machine-id
 chown -R "${runtime_uid}:${runtime_gid}" /config
+runuser -u abc -- env HOME=/config xdg-user-dirs-update

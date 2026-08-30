@@ -35,7 +35,7 @@
   <Config Name="Allow empty libinput" Target="WLR_LIBINPUT_NO_DEVICES" Default="1" Mode="" Description="Allow headless Labwc to start before Sunshine creates virtual input devices; set to 0 only when input nodes exist at startup." Type="Variable" Display="advanced" Required="true" Mask="false" />
   <Config Name="Wayland seat" Target="XDG_SEAT" Default="seat0" Mode="" Description="Seat assigned to Labwc and Sunshine virtual input." Type="Variable" Display="advanced" Required="true" Mask="false" />
   <Config Name="Desktop mode" Target="DEFAULT_MODE" Default="1920x1080@60" Mode="" Description="Fixed headless desktop resolution and refresh rate." Type="Variable" Display="always" Required="true" Mask="false" />
-  <Config Name="Mode policy" Target="OUTPUT_MODE_POLICY" Default="fixed" Mode="" Description="Use fixed for DEFAULT_MODE or client to follow each Moonlight client's requested resolution and frame rate." Type="Variable" Display="advanced" Required="true" Mask="false" />
+  <Config Name="Mode policy" Target="OUTPUT_MODE_POLICY" Default="client" Mode="" Description="Use client to follow each Moonlight client's requested resolution and frame rate, or fixed to force DEFAULT_MODE." Type="Variable" Display="advanced" Required="true" Mask="false" />
   <Config Name="Sunshine CSRF origins" Target="SUNSHINE_CSRF_ALLOWED_ORIGINS" Default="" Mode="" Description="Comma-separated trusted Web UI origins, including scheme and optional port." Type="Variable" Display="always" Required="false" Mask="false" />
   <Config Name="Enable Flatpak" Target="ENABLE_FLATPAK" Default="false" Mode="" Description="Enable the container-local procfs workaround and persistent user Flathub." Type="Variable" Display="advanced" Required="true" Mask="false" />
 </Container>

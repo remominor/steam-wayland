@@ -4,7 +4,7 @@ set -euo pipefail
 source /usr/local/bin/runtime-env.sh
 output="${WLR_OUTPUT:-HEADLESS-1}"
 default_mode="${DEFAULT_MODE:-1920x1080@60}"
-mode_policy="${OUTPUT_MODE_POLICY:-fixed}"
+mode_policy="${OUTPUT_MODE_POLICY:-client}"
 
 case "${1:-client}" in
   client)

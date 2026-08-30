@@ -7,7 +7,7 @@ The image is currently NVIDIA/amd64 focused. It has been tested locally with an 
 ## Included stack
 
 - Debian Trixie on the LinuxServer.io s6 base image
-- Labwc (GLES2 by default for NVIDIA DMA-BUF compatibility), Xwayland, Waybar, PipeWire, WirePlumber, and seatd
+- Labwc (GLES2 by default for NVIDIA DMA-BUF compatibility), XFCE 4.20 desktop components, Xwayland, PipeWire, WirePlumber, and seatd
 - Firefox ESR, Foot and XFCE terminals, Thunar, Mousepad, File Roller, Pavucontrol, and common command-line/system tools
 - Sunshine with Wayland capture and NVENC
 - Steam plus 32-bit graphics/runtime libraries
@@ -84,16 +84,16 @@ Important variables:
 | `WLR_LIBINPUT_NO_DEVICES` | `1` | Allows headless Labwc to start before Sunshine creates virtual input devices; libinput still discovers devices when they appear |
 | `XDG_SEAT` | `seat0` | Seat assigned to Labwc and Sunshine input devices |
 | `DEFAULT_MODE` | `1920x1080@60` | Fixed virtual desktop resolution and refresh rate |
-| `OUTPUT_MODE_POLICY` | `fixed` | `fixed` uses `DEFAULT_MODE`; `client` follows the Moonlight client's requested width, height, and FPS |
+| `OUTPUT_MODE_POLICY` | `client` | `client` follows the Moonlight client's requested width, height, and FPS; `fixed` uses `DEFAULT_MODE` |
 | `SUNSHINE_PORT` | unset in the image | Optional Sunshine base-port override |
 | `SUNSHINE_CSRF_ALLOWED_ORIGINS` | unset | Optional trusted Web UI origins |
 | `ENABLE_FLATPAK` | `false` | Enables the container procfs workaround and Flathub |
 
-The desktop defaults to a fixed 1920x1080 at 60 Hz, even if Moonlight requests a larger stream. Set `OUTPUT_MODE_POLICY=client` to apply each client's requested width, height, and frame rate to `HEADLESS-1`. The built-in apps are Desktop and Steam Big Picture. The desktop Steam button intentionally launches normal Steam/login; the Sunshine Big Picture app supplies `STEAM_ARGS` for gamepad UI mode.
+The desktop follows each Moonlight client's requested width, height, and frame rate by default. Set `OUTPUT_MODE_POLICY=fixed` with `DEFAULT_MODE=1920x1080@60` to force a fixed virtual desktop. The compositor is Labwc, while XFCE 4.20 supplies the panel, desktop background/icons, settings, notifications, application finder, and session-managed desktop applications. The desktop Steam button intentionally launches normal Steam/login; the Sunshine Big Picture app supplies `STEAM_ARGS` for gamepad UI mode.
 
 The desktop session does not keep an invisible Xwayland client open. Xwayland starts on demand when Steam or another X11 application launches, so no `Xwayland-Keepalive` window should appear.
 
-Right-clicking the desktop opens Labwc's application menu. “Reload Labwc configuration” reloads `rc.xml`, `menu.xml`, and related files; it is not a display-settings dialog. Headless resolution is controlled by `DEFAULT_MODE` and `OUTPUT_MODE_POLICY` because conventional desktop display tools do not own Labwc's virtual output.
+Right-clicking the desktop opens XFCE's desktop menu when the XFCE shell is active. Labwc's fallback menu includes “Display Settings” and “Reload Labwc configuration”; the latter reloads `rc.xml`, `menu.xml`, and related files. Headless resolution is controlled by `DEFAULT_MODE` and `OUTPUT_MODE_POLICY`; the XFCE display settings tool can inspect the Wayland output but the policy is authoritative at compositor/Sunshine startup.
 
 ### Renderer policy
 

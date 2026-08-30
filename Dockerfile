@@ -26,8 +26,8 @@ ENV HOME=/config \
     WAYLAND_DISPLAY=wayland-0 \
     DISPLAY=:0 \
     XDG_SESSION_TYPE=wayland \
-    XDG_CURRENT_DESKTOP=labwc \
-    XDG_SESSION_DESKTOP=labwc \
+    XDG_CURRENT_DESKTOP=XFCE \
+    XDG_SESSION_DESKTOP=xfce \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     LIBSEAT_BACKEND=seatd \
@@ -38,7 +38,7 @@ ENV HOME=/config \
     XDG_SEAT=seat0 \
     DRI_NODE=/dev/dri/renderD128 \
     DEFAULT_MODE=1920x1080@60 \
-    OUTPUT_MODE_POLICY=fixed \
+    OUTPUT_MODE_POLICY=client \
     ENABLE_FLATPAK=false \
     NVIDIA_DRIVER_CAPABILITIES=all \
     STEAM_ARGS="-gamepadui -steamos3"
@@ -66,6 +66,8 @@ RUN \
     fuse3 \
     fuse-overlayfs \
     fuzzel \
+    gvfs \
+    gvfs-backends \
     git \
     htop \
     imagemagick \
@@ -86,6 +88,7 @@ RUN \
     mousepad \
     nano \
     p7zip-full \
+    pm-utils \
     pavucontrol \
     pciutils \
     pipewire \
@@ -100,6 +103,7 @@ RUN \
     steam-libs-i386 \
     swaybg \
     thunar \
+    thunar-volman \
     tumbler \
     udev \
     unzip \
@@ -110,7 +114,16 @@ RUN \
     wireplumber \
     wlr-randr \
     xfce4-terminal \
+    xfce4-appfinder \
+    xfce4-notifyd \
+    xfce4-panel \
+    xfce4-pulseaudio-plugin \
+    xfce4-session \
+    xfce4-settings \
+    xfce4-whiskermenu-plugin \
+    xfdesktop4 \
     xdg-utils \
+    xdg-user-dirs \
     xwayland \
     zenity && \
   curl -fsSL -o /tmp/sunshine.deb \

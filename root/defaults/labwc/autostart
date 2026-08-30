@@ -1,2 +1,3 @@
-swaybg -c '#18222d' >/tmp/swaybg.log 2>&1 &
-waybar >/tmp/waybar.log 2>&1 &
+# Labwc remains the compositor while Xfce supplies the desktop, panel,
+# settings daemon, notifications, and session-managed applications.
+XFCE4_SESSION_COMPOSITOR=1 xfce4-session >/tmp/xfce4-session.log 2>&1 &

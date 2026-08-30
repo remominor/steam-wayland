@@ -16,6 +16,9 @@
     <item label="Audio Controls">
       <action name="Execute" command="pavucontrol" />
     </item>
+    <item label="Display Settings">
+      <action name="Execute" command="xfce4-display-settings" />
+    </item>
     <separator />
     <item label="Steam">
       <action name="Execute" command="steam" />

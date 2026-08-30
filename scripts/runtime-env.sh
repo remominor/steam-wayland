@@ -16,14 +16,14 @@ export PULSE_RUNTIME_PATH="${XDG_RUNTIME_DIR}/pulse"
 export LIBSEAT_BACKEND="${LIBSEAT_BACKEND:-seatd}"
 export SEATD_SOCK="${SEATD_SOCK:-/run/seatd.sock}"
 export XDG_SESSION_TYPE=wayland
-export XDG_CURRENT_DESKTOP=labwc
-export XDG_SESSION_DESKTOP=labwc
+export XDG_CURRENT_DESKTOP=XFCE
+export XDG_SESSION_DESKTOP=xfce
 export XDG_SEAT="${XDG_SEAT:-seat0}"
 export WLR_BACKENDS="${WLR_BACKENDS:-headless,libinput}"
 export WLR_LIBINPUT_NO_DEVICES="${WLR_LIBINPUT_NO_DEVICES:-1}"
 export WLR_RENDER_DRM_DEVICE="${DRI_NODE:-/dev/dri/renderD128}"
 export DEFAULT_MODE="${DEFAULT_MODE:-1920x1080@60}"
-export OUTPUT_MODE_POLICY="${OUTPUT_MODE_POLICY:-fixed}"
+export OUTPUT_MODE_POLICY="${OUTPUT_MODE_POLICY:-client}"
 
 # Auto-select a compatible renderer unless the user explicitly overrides it.
 if [[ -z "${WLR_RENDERER:-}" || "${WLR_RENDERER}" == "auto" ]]; then
