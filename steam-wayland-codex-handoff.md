@@ -174,11 +174,11 @@ AV1 failed as expected on RTX 3070. After `SYS_NICE` was granted, Sunshine repor
 
 This is the strongest proof point: **Wayland capture + NVENC works on the current production driver.** Sunshine itself documents the wlroots capture path in current configuration documentation. [S14]
 
-### 3.5 Renderer policy follow-up
+### 3.5 Renderer policy
 
-Vulkan is a valid Labwc/wlroots renderer and may be preferable on newer NVIDIA hardware, but renderer startup is not an end-to-end capture test. On Unraid, Vulkan initialized while Sunshine later failed to import an `XR24` compressed DMA-BUF modifier during frame capture. The current image therefore selects GLES2 for NVIDIA and leaves non-NVIDIA renderer selection to wlroots. This is a compatibility policy, not a Sunshine limitation; NVENC and compositor rendering are separate paths.
+Vulkan is a valid Labwc/wlroots renderer, but renderer startup is not an end-to-end capture test. On Unraid, Vulkan initialized while Sunshine later failed to import an `XR24` compressed DMA-BUF modifier during frame capture. The current image intentionally selects GLES2 for NVIDIA and leaves non-NVIDIA renderer selection to wlroots. This is a compatibility policy, not a Sunshine limitation; NVENC and compositor rendering are separate paths.
 
-Revisit a Vulkan-first policy only with a runtime health check that verifies actual `wlr-screencopy` frames and can restart the session with GLES2 after repeated capture failures. The LinuxServer Steam and labwc-headless-docker references do not currently provide that probe: they select GPU/render nodes or set a static renderer, respectively.
+Do not pursue Vulkan-first auto-detection as a default roadmap item. If a particular host needs Vulkan, set it explicitly and verify actual Moonlight capture. The LinuxServer Steam and labwc-headless-docker references do not provide an end-to-end renderer probe: they select GPU/render nodes or set a static renderer, respectively.
 
 ---
 
