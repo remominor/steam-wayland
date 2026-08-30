@@ -1,3 +1,9 @@
 # Labwc remains the compositor while Xfce supplies the desktop, panel,
 # settings daemon, notifications, and session-managed applications.
+(
+  for _ in $(seq 1 30); do
+    /usr/local/bin/configure-xfce-desktop.sh && break
+    sleep 0.5
+  done
+) >/tmp/xfce4-desktop-config.log 2>&1 &
 XFCE4_SESSION_COMPOSITOR=1 xfce4-session >/tmp/xfce4-session.log 2>&1 &

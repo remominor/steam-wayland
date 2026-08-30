@@ -89,11 +89,11 @@ Important variables:
 | `SUNSHINE_CSRF_ALLOWED_ORIGINS` | unset | Optional trusted Web UI origins |
 | `ENABLE_FLATPAK` | `false` | Enables the container procfs workaround and Flathub |
 
-The desktop follows each Moonlight client's requested width, height, and frame rate by default. Set `OUTPUT_MODE_POLICY=fixed` with `DEFAULT_MODE=1920x1080@60` to force a fixed virtual desktop. The compositor is Labwc, while XFCE 4.20 supplies the panel, desktop background/icons, settings, notifications, application finder, and session-managed desktop applications. The desktop Steam button intentionally launches normal Steam/login; the Sunshine Big Picture app supplies `STEAM_ARGS` for gamepad UI mode.
+The desktop follows each Moonlight client's requested width, height, and frame rate by default. Set `OUTPUT_MODE_POLICY=fixed` with `DEFAULT_MODE=1920x1080@60` to force a fixed virtual desktop. The compositor is Labwc, while XFCE 4.20 supplies the panel, desktop background, settings, notifications, application finder, and session-managed desktop applications. Desktop special icons (host filesystems, removable devices, home, trash, and network volumes) are disabled for this container; applications remain available from the panel/menu. The desktop Steam button intentionally launches normal Steam/login; the Sunshine Big Picture app supplies `STEAM_ARGS` for gamepad UI mode.
 
 The desktop session does not keep an invisible Xwayland client open. Xwayland starts on demand when Steam or another X11 application launches, so no `Xwayland-Keepalive` window should appear.
 
-Right-clicking the desktop opens XFCE's desktop menu when the XFCE shell is active. Labwc's fallback menu includes “Display Settings” and “Reload Labwc configuration”; the latter reloads `rc.xml`, `menu.xml`, and related files. Headless resolution is controlled by `DEFAULT_MODE` and `OUTPUT_MODE_POLICY`; the XFCE display settings tool can inspect the Wayland output but the policy is authoritative at compositor/Sunshine startup.
+Right-clicking the desktop opens XFCE's desktop menu when the XFCE shell is active. Labwc's fallback menu includes “Display Settings” and “Reload Labwc configuration”; the latter reloads `rc.xml`, `menu.xml`, and related files. Headless resolution is controlled by `DEFAULT_MODE` and `OUTPUT_MODE_POLICY`; the XFCE display settings tool can inspect the Wayland output but the policy is authoritative at compositor/Sunshine startup. The read-only `/run/udev` bind is retained for Sunshine/libinput virtual-device discovery; it does not grant access to host block devices, and XFCE's volume icons are explicitly disabled.
 
 ### Renderer policy
 

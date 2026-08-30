@@ -17,6 +17,14 @@ for defaults_dir in sunshine labwc waybar; do
   fi
 done
 
+# Apply additive session migrations to existing config volumes. Seed markers
+# intentionally preserve user edits, but these compatibility hooks are safe to
+# add when upgrading from an image that predates the XFCE desktop shell.
+if [[ -f /config/labwc/autostart ]] && ! grep -q 'configure-xfce-desktop.sh' /config/labwc/autostart; then
+  printf '\n(\n  for _ in $(seq 1 30); do\n    /usr/local/bin/configure-xfce-desktop.sh && break\n    sleep 0.5\n  done\n) >/tmp/xfce4-desktop-config.log 2>&1 &\n' \
+    >> /config/labwc/autostart
+fi
+
 set_sunshine_option() {
   local key="$1" value="$2" escaped
   [[ -n "${value}" ]] || return 0

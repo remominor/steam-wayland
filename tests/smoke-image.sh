@@ -9,6 +9,7 @@ docker run --rm --entrypoint /bin/bash "${image}" -lc '
   done
   test -f /defaults/labwc/rc.xml
   test -f /defaults/labwc/menu.xml
+  test -x /usr/local/bin/configure-xfce-desktop.sh
   test -f /defaults/sunshine/sunshine.conf
   test -f /etc/s6-overlay/s6-rc.d/svc-sunshine/run
   grep -q "capture = wlr" /defaults/sunshine/sunshine.conf
